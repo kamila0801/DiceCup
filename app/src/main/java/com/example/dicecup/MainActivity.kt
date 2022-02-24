@@ -4,12 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 import org.w3c.dom.Text
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var layouts: Array<LinearLayout>
     private var counter = 1;
-    private var dices = ArrayList<ImageView>()
+    private var dices = Stack<ImageView>()
 
     private val diceId = intArrayOf(
         0,
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         val text = findViewById<TextView>(R.id.noDices)
 
         incr.setOnClickListener {
-            incrementBtn()
+            addImage()
             if (counter != 6) {
                 counter++
                 text.text = counter.toString()
@@ -69,26 +70,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         when(size){
-            6, 5, 4, 3, 2 -> removeLastelement()
+            6, 5, 4, 3, 2 -> dices.pop()
         }
 
         if (size == 1) {
             Toast.makeText(
                 this,
                 "cannot delete more dices",
-                Toast.LENGTH_LONG
+                Toast.LENGTH_SHORT
             ).show()
         }
 
     }
 
-    private fun incrementBtn() {
-        addImage()
-    }
-
-    fun removeLastelement() {
-        dices.removeAt(dices.size - 1) // later change to the stack
-    }
 
     private fun addImage() {
         if (counter == 1) {
@@ -103,7 +97,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(
                 this,
                 "cannot add more dices",
-                Toast.LENGTH_LONG
+                Toast.LENGTH_SHORT
             ).show()
         }
     }
@@ -113,7 +107,7 @@ class MainActivity : AppCompatActivity() {
         imageView.layoutParams = LinearLayout.LayoutParams(200, 200) // value is in pixels
         imageView.setImageResource(R.drawable.dice2)
         imageView.setPadding(20, 0, 20, 0)
-        dices.add(imageView)
+        dices.push(imageView)
         return imageView;
     }
 }
