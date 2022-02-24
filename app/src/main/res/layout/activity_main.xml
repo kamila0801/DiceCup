@@ -9,71 +9,84 @@
             type="String" />
     </data>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:id="@+id/linearLay1"
-        android:layout_width="match_parent"
-        android:gravity="center_horizontal"
-        android:layout_height="120dp"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal">
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLay2"
-        android:layout_width="match_parent"
-        android:gravity="center_horizontal"
-        android:layout_height="120dp"
-        android:orientation="horizontal">
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linearLay3"
-        android:layout_width="match_parent"
-        android:gravity="center_horizontal"
-        android:layout_height="120dp"
-        android:orientation="horizontal">
-
-    </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:gravity="center|bottom"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
 
-        <Button
-            android:id="@+id/decrementBtn"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linearLay1"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLay2"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linearLay3"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="decrement"/>
+            android:layout_weight="1"
+            android:gravity="center|bottom">
 
-        <TextView
-            android:id="@+id/noDices"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@={counter}"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"/>
+            <Button
+                android:id="@+id/rollBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Roll"/>
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/incrementBtn"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="increment"/>
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:gravity="center|bottom">
+
+            <Button
+                android:id="@+id/decrementBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="decrement" />
+
+            <TextView
+                android:id="@+id/noDices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:text="@={counter}" />
+
+            <Button
+                android:id="@+id/incrementBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="increment" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
-
-
-</LinearLayout>
 
 </layout>

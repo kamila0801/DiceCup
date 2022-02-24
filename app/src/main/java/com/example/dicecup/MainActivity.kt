@@ -1,5 +1,6 @@
 package com.example.dicecup
 
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
@@ -30,18 +31,42 @@ class MainActivity : AppCompatActivity() {
 
         val lay1 = binding.linearLay1
         val lay2 = binding.linearLay2
-        val lay3 = binding.linearLay3
         val incr = binding.incrementBtn
         val decr = binding.decrementBtn
         var rollBtn = binding.rollBtn
-
         binding.counter = counter.toString()
 
-        layouts = arrayOf(lay1, lay2, lay3)
-        addImage()
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
 
+            val lay3 = binding.linearLay3
+            if(lay1!=null && lay2!=null && lay3!=null)
+                    layouts = arrayOf(lay1, lay2, lay3)
+
+            addImagePortrait()
+            initListeners(true, incr, decr, rollBtn)
+
+        }
+        else if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            if(lay1!=null && lay2!=null)
+                layouts = arrayOf(lay1, lay2)
+
+            addImageLandscape()
+            initListeners(false, incr, decr, rollBtn)
+        }
+
+    }
+
+
+    /**
+     * this method can be used in both just an if statement for addImagePortrait
+     */
+    private fun initListeners(portrait: Boolean, incr: Button, decr: Button, rollBtn: Button?) {
         incr.setOnClickListener {
-            addImage()
+            if(portrait)
+                addImagePortrait()
+            else
+                addImageLandscape()
+
             if (counter != 6) {
                 counter++
                 binding.counter = counter.toString()
@@ -49,15 +74,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         decr.setOnClickListener {
-            decrementBtn()
+            decrementBtn(portrait)
             if (counter != 1) {
                 counter--
                 binding.counter = counter.toString()
             }
         }
 
-        rollBtn.setOnClickListener { roll() }
-
+        rollBtn?.setOnClickListener { roll() }
     }
 
     private fun roll() {
@@ -66,18 +90,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun decrementBtn() {
+    private fun decrementBtn(portrait: Boolean) {
         val size = dices.size;
-        if (size == 6) {
-            layouts[2].removeViewAt(1)
-        } else if (size == 5) {
-            layouts[2].removeViewAt(0)
-        } else if (size == 4) {
-            layouts[1].removeViewAt(1)
-        } else if (size == 3) {
-            layouts[1].removeViewAt(0)
-        } else if (size == 2) {
-            layouts[0].removeViewAt(1)
+
+        if(portrait){
+            removeElementPortrait(size)
+        }
+        else{
+            removeElementLandscape(size)
         }
 
         when(size){
@@ -94,8 +114,36 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun removeElementLandscape(size: Int) {
+        if (size == 6) {
+            layouts[1].removeViewAt(2)
+        } else if (size == 5) {
+            layouts[1].removeViewAt(1)
+        } else if (size == 4) {
+            layouts[1].removeViewAt(0)
+        } else if (size == 3) {
+            layouts[0].removeViewAt(2)
+        } else if (size == 2) {
+            layouts[0].removeViewAt(1)
+        }
+    }
 
-    private fun addImage() {
+    private fun removeElementPortrait(size: Int) {
+        if (size == 6) {
+            layouts[2].removeViewAt(1)
+        } else if (size == 5) {
+            layouts[2].removeViewAt(0)
+        } else if (size == 4) {
+            layouts[1].removeViewAt(1)
+        } else if (size == 3) {
+            layouts[1].removeViewAt(0)
+        } else if (size == 2) {
+            layouts[0].removeViewAt(1)
+        }
+    }
+
+
+    private fun addImagePortrait() {
         if (counter == 1) {
             layouts[0].addView(getImageView())
         }
@@ -105,6 +153,22 @@ class MainActivity : AppCompatActivity() {
         if (counter == 4 || counter == 5) {
             layouts[2].addView(getImageView())
         } else if (counter == 6) {
+            Toast.makeText(
+                this,
+                "cannot add more dices",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun addImageLandscape() {
+        if (counter == 1 || counter==2) {
+            layouts[0].addView(getImageView())
+        }
+        if (counter == 3 || counter == 4 || counter==5) {
+            layouts[1].addView(getImageView())
+        }
+        else if (counter == 6) {
             Toast.makeText(
                 this,
                 "cannot add more dices",
