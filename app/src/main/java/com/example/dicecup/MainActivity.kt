@@ -7,12 +7,14 @@ import android.widget.*
 import androidx.databinding.DataBindingUtil
 import com.example.dicecup.databinding.ActivityMainBinding
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var layouts: Array<LinearLayout>
     private var counter: Int = 1;
     private var dices = Stack<ImageView>()
+    private var dicesValues = ArrayList<Int>()
     private val mRandomGenerator = Random()
 
     private val diceId = intArrayOf(
@@ -42,7 +44,14 @@ class MainActivity : AppCompatActivity() {
             if(lay1!=null && lay2!=null && lay3!=null)
                     layouts = arrayOf(lay1, lay2, lay3)
 
-            addImagePortrait()
+            if (savedInstanceState != null)
+            {
+                dicesValues = savedInstanceState.getIntegerArrayList("mValue") as ArrayList<Int>
+                refreshPortrait()
+            }
+            else
+                addImagePortrait(-1, true)
+
             initListeners(true, incr, decr, rollBtn)
 
         }
@@ -50,11 +59,37 @@ class MainActivity : AppCompatActivity() {
             if(lay1!=null && lay2!=null)
                 layouts = arrayOf(lay1, lay2)
 
-            addImageLandscape()
+            if (savedInstanceState != null)
+            {
+                dicesValues = savedInstanceState.getIntegerArrayList("mValue") as ArrayList<Int>
+                refreshLandScape()
+            }
+            else
+                addImageLandscape(true)
             initListeners(false, incr, decr, rollBtn)
         }
 
     }
+
+    private fun refreshLandScape() {
+        for(value in dicesValues){
+            addImageLandscape(value, false)
+        }
+    }
+
+    private fun refreshPortrait() {
+        for(value in dicesValues){
+            addImagePortrait(value, false)
+        }
+    }
+
+
+    override fun onSaveInstanceState(state: Bundle) {
+        super.onSaveInstanceState(state)
+        state.putIntegerArrayList("mValue", dicesValues);
+    }
+
+
 
 
     /**
@@ -63,9 +98,9 @@ class MainActivity : AppCompatActivity() {
     private fun initListeners(portrait: Boolean, incr: Button, decr: Button, rollBtn: Button?) {
         incr.setOnClickListener {
             if(portrait)
-                addImagePortrait()
+                addImagePortrait(-1, true) // -1 is for no
             else
-                addImageLandscape()
+                addImageLandscape(true)
 
             if (counter != 6) {
                 counter++
@@ -85,8 +120,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun roll() {
+        dicesValues.clear()
         for(image in dices){
-            image.setImageResource(diceId[mRandomGenerator.nextInt(6) + 1])
+            val value = mRandomGenerator.nextInt(6) + 1;
+            image.setImageResource(diceId[value])
+            dicesValues.add(value)
         }
     }
 
@@ -126,6 +164,7 @@ class MainActivity : AppCompatActivity() {
         } else if (size == 2) {
             layouts[0].removeViewAt(1)
         }
+        dicesValues.removeAt(dicesValues.size-1)
     }
 
     private fun removeElementPortrait(size: Int) {
@@ -140,18 +179,19 @@ class MainActivity : AppCompatActivity() {
         } else if (size == 2) {
             layouts[0].removeViewAt(1)
         }
+        dicesValues.removeAt(dicesValues.size-1)
     }
 
 
-    private fun addImagePortrait() {
+    private fun addImagePortrait(no: Int, isNew: Boolean) {
         if (counter == 1) {
-            layouts[0].addView(getImageView())
+            layouts[0].addView( if( no==-1)  getImageView() else getImageView(no))
         }
         if (counter == 2 || counter == 3) {
-            layouts[1].addView(getImageView())
+            layouts[1].addView(if( no==-1)  getImageView() else getImageView(no))
         }
         if (counter == 4 || counter == 5) {
-            layouts[2].addView(getImageView())
+            layouts[2].addView(if( no==-1)  getImageView() else getImageView(no))
         } else if (counter == 6) {
             Toast.makeText(
                 this,
@@ -159,9 +199,14 @@ class MainActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         }
+        if(isNew){
+            when(counter){
+                1,2,3,4,5 -> if( no==-1) dicesValues.add(2) else dicesValues.add(no)
+            }
+        }
     }
 
-    private fun addImageLandscape() {
+    private fun addImageLandscape( isNew: Boolean) {
         if (counter == 1 || counter==2) {
             layouts[0].addView(getImageView())
         }
@@ -175,12 +220,50 @@ class MainActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         }
+        if(isNew){
+            when(counter){
+                1,2,3,4,5 -> dicesValues.add(2)
+            }
+        }
+
+    }
+    private fun addImageLandscape(no:Int, isNew: Boolean) {
+        if (counter == 1 || counter==2) {
+            layouts[0].addView(getImageView(no))
+        }
+        if (counter == 3 || counter == 4 || counter==5) {
+            layouts[1].addView(getImageView(no))
+        }
+        else if (counter == 6) {
+            Toast.makeText(
+                this,
+                "cannot add more dices",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        if(isNew){
+            when(counter){
+                1,2,3,4,5 -> dicesValues.add(no)
+            }
+        }
     }
 
     private fun getImageView(): ImageView {
         val imageView = ImageView(this)
         imageView.layoutParams = LinearLayout.LayoutParams(200, 200) // value is in pixels
         imageView.setImageResource(R.drawable.dice2)
+        imageView.setPadding(20, 0, 20, 0)
+        dices.push(imageView)
+        return imageView;
+    }
+
+    private fun getImageView(no: Int): ImageView {
+        val imageView = ImageView(this)
+        imageView.layoutParams = LinearLayout.LayoutParams(200, 200) // value is in pixels
+        if(no==-1)
+            imageView.setImageResource(diceId[1])
+        else
+            imageView.setImageResource(diceId[no])
         imageView.setPadding(20, 0, 20, 0)
         dices.push(imageView)
         return imageView;
