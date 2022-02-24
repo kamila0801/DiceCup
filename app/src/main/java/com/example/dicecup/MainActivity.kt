@@ -3,13 +3,14 @@ package com.example.dicecup
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
-import org.w3c.dom.Text
+import androidx.databinding.DataBindingUtil
+import com.example.dicecup.databinding.ActivityMainBinding
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-
+    private lateinit var binding: ActivityMainBinding
     private lateinit var layouts: Array<LinearLayout>
-    private var counter = 1;
+    private var counter: Int = 1;
     private var dices = Stack<ImageView>()
 
     private val diceId = intArrayOf(
@@ -24,23 +25,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val lay1 = findViewById<LinearLayout>(R.id.linearLay1)
-        val lay2 = findViewById<LinearLayout>(R.id.linearLay2)
-        val lay3 = findViewById<LinearLayout>(R.id.linearLay3)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        val lay1 = binding.linearLay1
+        val lay2 = binding.linearLay2
+        val lay3 = binding.linearLay3
+        val incr = binding.incrementBtn
+        val decr = binding.decrementBtn
+
+        binding.counter = counter.toString()
+
         layouts = arrayOf(lay1, lay2, lay3)
         addImage()
-
-
-        val incr = findViewById<Button>(R.id.incrementBtn)
-        val decr = findViewById<Button>(R.id.decrementBtn)
-        val text = findViewById<TextView>(R.id.noDices)
 
         incr.setOnClickListener {
             addImage()
             if (counter != 6) {
                 counter++
-                text.text = counter.toString()
+                binding.counter = counter.toString()
             }
         }
 
@@ -48,10 +50,9 @@ class MainActivity : AppCompatActivity() {
             decrementBtn()
             if (counter != 1) {
                 counter--
-                text.text = counter.toString()
+                binding.counter = counter.toString()
             }
         }
-
 
     }
 
