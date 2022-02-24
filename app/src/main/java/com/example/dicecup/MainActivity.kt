@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity() {
 
             if (savedInstanceState != null)
             {
+                counter = savedInstanceState.getInt("c")
+                binding.counter = counter.toString()
                 dicesValues = savedInstanceState.getIntegerArrayList("mValue") as ArrayList<Int>
                 refreshPortrait()
             }
@@ -61,6 +63,8 @@ class MainActivity : AppCompatActivity() {
 
             if (savedInstanceState != null)
             {
+                counter = savedInstanceState.getInt("c")
+                binding.counter = counter.toString()
                 dicesValues = savedInstanceState.getIntegerArrayList("mValue") as ArrayList<Int>
                 refreshLandScape()
             }
@@ -87,6 +91,7 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(state: Bundle) {
         super.onSaveInstanceState(state)
         state.putIntegerArrayList("mValue", dicesValues);
+        state.putInt("c", counter)
     }
 
 
