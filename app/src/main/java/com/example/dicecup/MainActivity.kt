@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var layouts: Array<LinearLayout>
     private var counter: Int = 1;
     private var dices = Stack<ImageView>()
+    private val mRandomGenerator = Random()
 
     private val diceId = intArrayOf(
         0,
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         val lay3 = binding.linearLay3
         val incr = binding.incrementBtn
         val decr = binding.decrementBtn
+        var rollBtn = binding.rollBtn
 
         binding.counter = counter.toString()
 
@@ -54,6 +56,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        rollBtn.setOnClickListener { roll() }
+
+    }
+
+    private fun roll() {
+        for(image in dices){
+            image.setImageResource(diceId[mRandomGenerator.nextInt(6) + 1])
+        }
     }
 
     private fun decrementBtn() {
