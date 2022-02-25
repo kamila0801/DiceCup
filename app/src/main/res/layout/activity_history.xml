@@ -15,12 +15,12 @@
         android:orientation="vertical"
         tools:context=".MainActivity">
 
-        <Button
-            android:id="@+id/historyBtn"
+        <Switch
+            android:id="@+id/changeToimageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="@string/history_button"/>
+            android:text="@string/history_switch"/>
 
         <LinearLayout
             android:id="@+id/linearLay1"
@@ -59,11 +59,6 @@
             android:layout_weight="1"
             android:gravity="center|bottom">
 
-            <Button
-                android:id="@+id/rollBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Roll"/>
         </LinearLayout>
 
         <LinearLayout
@@ -74,24 +69,19 @@
             android:gravity="center|bottom">
 
             <Button
-                android:id="@+id/decrementBtn"
+                android:id="@+id/clearButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="decrement" />
-
-            <TextView
-                android:id="@+id/noDices"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:text="@={counter}" />
+                android:layout_marginRight="10dp"
+                android:text="@string/history_backBtn"
+                />
 
             <Button
-                android:id="@+id/incrementBtn"
+                android:id="@+id/backButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="increment" />
+                android:layout_marginLeft="10dp"
+                android:text="@string/history_clearBtn" />
 
         </LinearLayout>
 

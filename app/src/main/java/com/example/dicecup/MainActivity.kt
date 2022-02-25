@@ -1,5 +1,6 @@
 package com.example.dicecup
 
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     private var dices = Stack<ImageView>()
     private var dicesValues = ArrayList<Int>()
     private val mRandomGenerator = Random()
+    private lateinit var historyButton: Button
 
     private val diceId = intArrayOf(
         0,
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        historyButton = findViewById(R.id.historyBtn)
 
         val lay1 = binding.linearLay1
         val lay2 = binding.linearLay2
@@ -72,6 +75,8 @@ class MainActivity : AppCompatActivity() {
                 addImageLandscape(true)
             initListeners(false, incr, decr, rollBtn)
         }
+
+        loadHistory()
 
     }
 
@@ -272,5 +277,12 @@ class MainActivity : AppCompatActivity() {
         imageView.setPadding(20, 0, 20, 0)
         dices.push(imageView)
         return imageView;
+    }
+
+    private fun loadHistory(){
+        historyButton.setOnClickListener {
+            val intent = Intent(this, HistoryActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
