@@ -282,6 +282,8 @@ class MainActivity : AppCompatActivity() {
     private fun loadHistory(){
         historyButton.setOnClickListener {
             val intent = Intent(this, HistoryActivity::class.java)
+            intent.putExtra("history", dicesValues)
+
             startActivity(intent)
         }
     }

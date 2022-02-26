@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/GitHub/4semester/DiceCup/app/src/main/res/layout-land/activity_history.xml" value="0.22" />
+        <entry key="..\:/GitHub/4semester/DiceCup/app/src/main/res/layout-land/activity_main.xml" value="0.1578125" />
+        <entry key="..\:/GitHub/4semester/DiceCup/app/src/main/res/layout/activity_history.xml" value="0.22" />
+        <entry key="..\:/GitHub/4semester/DiceCup/app/src/main/res/layout/activity_main.xml" value="0.3383152173913043" />
+        <entry key="..\:/GitHub/4semester/DiceCup/app/src/main/res/layout/history_main.xml" value="0.1" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/DiceCupKLK/app/src/main/res/layout-land/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/DiceCupKLK/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
       </map>
