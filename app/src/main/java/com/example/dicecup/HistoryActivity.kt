@@ -1,68 +1,72 @@
 package com.example.dicecup
 
-import android.content.Intent
+import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ListView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import java.util.*
+import com.example.dicecup.model.HistoryEntity
+import com.example.dicecup.service.HistoryService
+import kotlinx.android.synthetic.main.activity_history.*
 
 
 class HistoryActivity : AppCompatActivity() {
-    private lateinit var historyView: ListView
-    private lateinit var backBtn: Button
-    private val mHistory = mutableListOf<String>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
 
-        historyView = findViewById(R.id.dicesView)
-        backBtn = findViewById(R.id.backButton)
+        val adapter = HistoryAdapter(this, HistoryService.getAll())
+        historyListView.adapter = adapter
 
+        if(adapter.getCount() == 0) {
+            Toast.makeText(
+                this,
+                "the history is empty",
+                Toast.LENGTH_LONG
+            ).show()
+        }
 
-
-
-
-        backToRollView()
-        clearHistoryBtn()
-        addHistoryToListView()
-
-    }
-
-    private fun backToRollView() {
-        backBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+        backButton.setOnClickListener {this.finish()}
+        clearButton.setOnClickListener{
+            HistoryService.clear()
+            adapter.notifyDataSetChanged()
         }
     }
 
+    //Adapter
+    internal class HistoryAdapter(context: Context, private val history: MutableList<HistoryEntity>)
+        : ArrayAdapter<HistoryEntity>(context, 0, history)
+    {
+        // these colors are used to toggle the background of the list items.
+        private val colours = intArrayOf(
+            Color.parseColor("#AAAAAA"),
+            Color.parseColor("#CACACA")
+        )
 
-    private fun clearHistoryBtn(){
-        //need to do
+        override fun getView(position: Int, v: View?, parent: ViewGroup): View {
+            var v1: View? = v
+            if (v1 == null) {
+                val mInflater = LayoutInflater.from(context)
+                v1 = mInflater.inflate(R.layout.cell_extended, null)
+
+            }
+            val resView: View = v1!!
+            resView.setBackgroundColor(colours[position % colours.size])
+            val h = history[position]
+            val indexView = resView.findViewById<TextView>(R.id.indexItem)
+            val timeView = resView.findViewById<TextView>(R.id.timeItem)
+            val dicesView = resView.findViewById<TextView>(R.id.dicesItem)
+            indexView.text = h.id.toString()
+            timeView.text = h.timestamp.toString()
+            dicesView.text = h.dices
+
+            return resView
+        }
     }
-
-
-    private fun addHistoryToListView(){
-        var toka = intent.getStringArrayListExtra("history")
-        mHistory.add(toka.toString())
-
-        val arrayAdapter: ArrayAdapter<*>
-
-        arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,  mHistory)
-        historyView.adapter = arrayAdapter
-
-    }
-
-
-
-
-
-
-
-
 }
 
 

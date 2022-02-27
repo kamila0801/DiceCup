@@ -2,11 +2,14 @@ package com.example.dicecup
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import com.example.dicecup.databinding.ActivityMainBinding
+import com.example.dicecup.service.HistoryService
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -29,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         R.drawable.dice6
     )
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -105,6 +109,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * this method can be used in both just an if statement for addImagePortrait
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initListeners(portrait: Boolean, incr: Button, decr: Button, rollBtn: Button?) {
         incr.setOnClickListener {
             if(portrait)
@@ -129,13 +134,17 @@ class MainActivity : AppCompatActivity() {
         rollBtn?.setOnClickListener { roll() }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun roll() {
         dicesValues.clear()
+        var dicesString = ""
         for(image in dices){
             val value = mRandomGenerator.nextInt(6) + 1;
             image.setImageResource(diceId[value])
             dicesValues.add(value)
+            dicesString += ("$value - ")
         }
+        HistoryService.add(dicesString)
     }
 
     private fun decrementBtn(portrait: Boolean) {
@@ -282,8 +291,6 @@ class MainActivity : AppCompatActivity() {
     private fun loadHistory(){
         historyButton.setOnClickListener {
             val intent = Intent(this, HistoryActivity::class.java)
-            intent.putExtra("history", dicesValues)
-
             startActivity(intent)
         }
     }

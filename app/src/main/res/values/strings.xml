@@ -4,4 +4,5 @@
     <string name="history_switch">View as images</string>
     <string name="history_backBtn">Back</string>
     <string name="history_clearBtn">Clear</string>
+    <string name="history_title">History</string>
 </resources>
