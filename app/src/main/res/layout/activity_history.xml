@@ -14,7 +14,7 @@
         android:orientation="vertical"
         tools:context=".MainActivity">
 
-        <Switch
+        <ToggleButton
             android:id="@+id/changeToimageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,17 +34,17 @@
         <ListView
             android:id="@+id/historyListView"
             android:layout_width="match_parent"
-            android:layout_height="557dp"
-            android:layout_above="@+id/linearLay1"
-            android:layout_below="@+id/layoutDices"
+            android:layout_height="match_parent"
             android:layout_weight="0.5"
-            android:visibility="visible"></ListView>
+            android:visibility="visible"
+            android:layout_above="@+id/linearLay1"
+            android:layout_below="@+id/layoutDices"></ListView>
 
 
         <LinearLayout
             android:id="@+id/layoutDices"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:gravity="center|bottom">
