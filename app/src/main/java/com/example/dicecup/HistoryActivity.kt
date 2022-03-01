@@ -1,8 +1,10 @@
 package com.example.dicecup
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,8 +53,8 @@ class HistoryActivity : AppCompatActivity() {
             historyView.adapter = adapter
         } else {
             val adapter = HistoryAdapter(this, HistoryService.getAll(), false)
-            val lvRollHistory = findViewById<ListView>(R.id.historyListView)
-            lvRollHistory.adapter = adapter
+            val rollHistory = findViewById<ListView>(R.id.historyListView)
+            rollHistory.adapter = adapter
         }
     }
 
@@ -83,7 +85,7 @@ class HistoryActivity : AppCompatActivity() {
             timeView.text = h.timestamp.toString()
             //dicesView.text = rolls
 
-            // List of dice images
+
             val imageViewList = ArrayList<ImageView>()
             imageViewList.add(resView.findViewById(R.id.Image1))
             imageViewList.add(resView.findViewById(R.id.Image2))
@@ -97,7 +99,7 @@ class HistoryActivity : AppCompatActivity() {
             if (asImage){
                 dicesView.visibility = View.VISIBLE
                 setDiceVisible(h.rolls.size, imageViewList)
-                showDiceImages(100, h.rolls, imageViewList)
+                showImages(100, h.rolls, imageViewList)
             }else{
                 setDiceVisible(0,imageViewList)
                 val temp = ArrayList<Int>()
@@ -114,17 +116,17 @@ class HistoryActivity : AppCompatActivity() {
             return resView
         }
         fun setDiceVisible(diceAmount: Int, imageViewList: ArrayList<ImageView>) {
-            // Set all dice to gone
+
             for (i in 0 until imageViewList.size) {
                 imageViewList[i].visibility = View.GONE
             }
 
-            // Set needed amount of dice to visible
+
             for (i in 0 until diceAmount) {
                 imageViewList[i].visibility = View.VISIBLE
             }
         }
-        fun showDiceImages(imageSize: Int, diceRoll: IntArray, imageViewList: ArrayList<ImageView>) {
+        fun showImages(imageSize: Int, diceRoll: IntArray, imageViewList: ArrayList<ImageView>) {
             for (i in 0 until diceRoll.size) {
                 Picasso
                     .get()
@@ -144,6 +146,7 @@ class HistoryActivity : AppCompatActivity() {
             return R.drawable.dice6
         }
     }
+
 }
 
 

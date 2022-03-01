@@ -19,13 +19,60 @@
             android:layout_weight="1"
             android:text="1."
             android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/Image1"
+            android:layout_marginRight="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/dice1"
+            android:layout_marginLeft="5dp"/>
+
+        <ImageView
+            android:id="@+id/Image2"
+            android:layout_marginRight="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/dice1"/>
+
+        <ImageView
+            android:id="@+id/Image3"
+            android:layout_marginRight="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/dice1"/>
+
+        <ImageView
+            android:id="@+id/Image4"
+            android:layout_marginRight="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/dice1"/>
+
+        <ImageView
+            android:id="@+id/Image5"
+            android:layout_marginRight="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/dice1"/>
+
+        <ImageView
+            android:id="@+id/Image6"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/dice1"/>
+
 
         <TextView
             android:id="@+id/dicesItem"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="3 - 6 - 6 - 4"
             android:textStyle="bold"
              />
 
