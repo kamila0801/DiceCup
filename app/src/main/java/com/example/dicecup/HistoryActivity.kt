@@ -1,10 +1,8 @@
 package com.example.dicecup
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,12 +39,13 @@ class HistoryActivity : AppCompatActivity() {
         }
 
 
-        val togglePipImage = findViewById<ToggleButton>(R.id.changeToimageView)
-        togglePipImage.setOnClickListener { changeViewType(togglePipImage.isChecked)}
+        val toggleButton = findViewById<ToggleButton>(R.id.changeToimageView)
+        toggleButton.setOnClickListener { changeView(toggleButton.isChecked)}
 
         }
 
-    private fun changeViewType(checked: Boolean) {
+
+    private fun changeView(checked: Boolean) {
         if(checked){
             val adapter = HistoryAdapter(this, HistoryService.getAll(), true)
             val historyView = findViewById<ListView>(R.id.historyListView)

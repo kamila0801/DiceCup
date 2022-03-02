@@ -1,53 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="counter"
+            type="String" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="center"
-            android:text="@string/history_backBtn" />
+        android:orientation="vertical"
+        tools:context=".MainActivity">
 
         <ToggleButton
-            android:id="@+id/switchImages"
+            android:id="@+id/changeToimageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:text="@string/history_switch"/>
 
-
-        <Button
-            android:id="@+id/clearButton"
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:text="@string/history_clearBtn" />
+            android:text="@string/history_title"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/purple_700"/>
+
+
+        <ListView
+            android:id="@+id/historyListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:visibility="visible"
+            android:layout_above="@+id/linearLay1"
+            android:layout_below="@+id/layoutDices"></ListView>
 
 
         <LinearLayout
-            android:id="@+id/linearLay3"
+            android:id="@+id/layoutDices"
             android:layout_width="match_parent"
-            android:layout_height="432dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:gravity="center|bottom">
 
-            <ListView
-                android:id="@+id/dicesView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/linearLay1"
-                android:layout_below="@+id/layoutDices"
-                android:visibility="visible"></ListView>
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="@string/history_backBtn"
+                />
+
+            <Button
+                android:id="@+id/clearButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/history_clearBtn" />
 
         </LinearLayout>
+
 
     </LinearLayout>
 
