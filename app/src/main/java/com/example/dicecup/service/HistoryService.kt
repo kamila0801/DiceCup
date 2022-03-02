@@ -12,10 +12,8 @@ object HistoryService {
     fun getAll() = historyList
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun add(dices: String) {
-        var values = dices.dropLast(3) //because last 3 chars are " - "
-        historyList.add(HistoryEntity(historyList.size + 1, LocalDateTime.now(), values))
-        for (h in historyList) println(h)
+    fun add(a : IntArray) {
+        historyList.add(HistoryEntity(historyList.size + 1, LocalDateTime.now(), a))
     }
 
     fun clear() {

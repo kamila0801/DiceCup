@@ -17,8 +17,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var layouts: Array<LinearLayout>
     private var counter: Int = 1;
+    private val dicesValues = mutableListOf<Int>()
     private var dices = Stack<ImageView>()
-    private var dicesValues = ArrayList<Int>()
     private val mRandomGenerator = Random()
     private lateinit var historyButton: Button
 
@@ -55,7 +55,9 @@ class MainActivity : AppCompatActivity() {
             {
                 counter = savedInstanceState.getInt("c")
                 binding.counter = counter.toString()
-                dicesValues = savedInstanceState.getIntegerArrayList("mValue") as ArrayList<Int>
+                dicesValues.clear()
+                for ( e in savedInstanceState.getIntArray("mValue") as IntArray)
+                    dicesValues.add(e)
                 refreshPortrait()
             }
             else
@@ -72,7 +74,8 @@ class MainActivity : AppCompatActivity() {
             {
                 counter = savedInstanceState.getInt("c")
                 binding.counter = counter.toString()
-                dicesValues = savedInstanceState.getIntegerArrayList("mValue") as ArrayList<Int>
+                for ( e in savedInstanceState.getIntArray("mValue") as IntArray)
+                    dicesValues.add(e)
                 refreshLandScape()
             }
             else
@@ -99,7 +102,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(state: Bundle) {
         super.onSaveInstanceState(state)
-        state.putIntegerArrayList("mValue", dicesValues);
+        state.putIntArray("mValue", dicesValues.toIntArray());
         state.putInt("c", counter)
     }
 
@@ -137,14 +140,14 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun roll() {
         dicesValues.clear()
-        var dicesString = ""
+
         for(image in dices){
             val value = mRandomGenerator.nextInt(6) + 1;
             image.setImageResource(diceId[value])
             dicesValues.add(value)
-            dicesString += ("$value - ")
         }
-        HistoryService.add(dicesString)
+        HistoryService.add(dicesValues.toIntArray())
+
     }
 
     private fun decrementBtn(portrait: Boolean) {

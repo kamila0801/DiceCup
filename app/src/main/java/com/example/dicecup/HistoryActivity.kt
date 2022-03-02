@@ -10,16 +10,18 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dicecup.model.HistoryEntity
 import com.example.dicecup.service.HistoryService
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_history.*
 
 
 class HistoryActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
 
-        val adapter = HistoryAdapter(this, HistoryService.getAll())
+        val adapter = HistoryAdapter(this, HistoryService.getAll(), false)
         historyListView.adapter = adapter
 
         if(adapter.getCount() == 0) {
@@ -35,10 +37,28 @@ class HistoryActivity : AppCompatActivity() {
             HistoryService.clear()
             adapter.notifyDataSetChanged()
         }
+
+
+        val toggleButton = findViewById<ToggleButton>(R.id.changeToimageView)
+        toggleButton.setOnClickListener { changeView(toggleButton.isChecked)}
+
+        }
+
+
+    private fun changeView(checked: Boolean) {
+        if(checked){
+            val adapter = HistoryAdapter(this, HistoryService.getAll(), true)
+            val historyView = findViewById<ListView>(R.id.historyListView)
+            historyView.adapter = adapter
+        } else {
+            val adapter = HistoryAdapter(this, HistoryService.getAll(), false)
+            val rollHistory = findViewById<ListView>(R.id.historyListView)
+            rollHistory.adapter = adapter
+        }
     }
 
     //Adapter
-    internal class HistoryAdapter(context: Context, private val history: MutableList<HistoryEntity>)
+    internal class HistoryAdapter(context: Context, private val history: MutableList<HistoryEntity>,private val asImage: Boolean)
         : ArrayAdapter<HistoryEntity>(context, 0, history)
     {
         // these colors are used to toggle the background of the list items.
@@ -62,12 +82,73 @@ class HistoryActivity : AppCompatActivity() {
             val dicesView = resView.findViewById<TextView>(R.id.dicesItem)
             indexView.text = h.id.toString()
             timeView.text = h.timestamp.toString()
-            dicesView.text = h.dices
+            //dicesView.text = rolls
+
+
+            val imageViewList = ArrayList<ImageView>()
+            imageViewList.add(resView.findViewById(R.id.Image1))
+            imageViewList.add(resView.findViewById(R.id.Image2))
+            imageViewList.add(resView.findViewById(R.id.Image3))
+            imageViewList.add(resView.findViewById(R.id.Image4))
+            imageViewList.add(resView.findViewById(R.id.Image5))
+            imageViewList.add(resView.findViewById(R.id.Image6))
+
+
+
+            if (asImage){
+                dicesView.visibility = View.VISIBLE
+                setDiceVisible(h.rolls.size, imageViewList)
+                showImages(100, h.rolls, imageViewList)
+            }else{
+                setDiceVisible(0,imageViewList)
+                val temp = ArrayList<Int>()
+                for (i in 0 until h.rolls.size step 1) {
+                    temp.add(h.rolls[i])
+                    dicesView.text = temp.toString()
+                        .replace("[", "")
+                        .replace("]", "")
+                        .replace(",", " -")
+                }
+
+            }
 
             return resView
         }
+        fun setDiceVisible(diceAmount: Int, imageViewList: ArrayList<ImageView>) {
+
+            for (i in 0 until imageViewList.size) {
+                imageViewList[i].visibility = View.GONE
+            }
+
+
+            for (i in 0 until diceAmount) {
+                imageViewList[i].visibility = View.VISIBLE
+            }
+        }
+        fun showImages(imageSize: Int, diceRoll: IntArray, imageViewList: ArrayList<ImageView>) {
+            for (i in 0 until diceRoll.size) {
+                Picasso
+                    .get()
+                    .load(GetImageId(diceRoll[i]))
+                    .resize(imageSize, imageSize)
+                    .onlyScaleDown()
+                    .into(imageViewList[i])
+            }
+
+        }
+        fun GetImageId(eyes: Int): Int {
+            if (eyes == 1) return R.drawable.dice1
+            if (eyes == 2) return R.drawable.dice2
+            if (eyes == 3) return R.drawable.dice3
+            if (eyes == 4) return R.drawable.dice4
+            if (eyes == 5) return R.drawable.dice5
+            return R.drawable.dice6
+        }
     }
+
 }
+
+
 
 
 
